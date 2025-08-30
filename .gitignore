@@ -1,0 +1,36 @@
+# Backend Laravel
+kishniyaz-backend/vendor/
+kishniyaz-backend/node_modules/
+kishniyaz-backend/public/hot
+kishniyaz-backend/public/storage
+kishniyaz-backend/storage/*.key
+kishniyaz-backend/.env
+kishniyaz-backend/.env.backup
+kishniyaz-backend/.phpunit.result.cache
+kishniyaz-backend/docker-compose.override.yml
+kishniyaz-backend/Homestead.json
+kishniyaz-backend/Homestead.yaml
+kishniyaz-backend/npm-debug.log
+kishniyaz-backend/yarn-error.log
+
+# Frontend React
+kishniyaz-frontend/node_modules
+kishniyaz-frontend/dist
+kishniyaz-frontend/dist-ssr
+kishniyaz-frontend/*.local
+kishniyaz-frontend/.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
