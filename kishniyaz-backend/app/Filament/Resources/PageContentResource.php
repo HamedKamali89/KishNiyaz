@@ -3,31 +3,38 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PageContentResource\Pages;
+use App\Filament\Resources\PageContentResource\RelationManagers;
 use App\Models\PageContent;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PageContentResource extends Resource
 {
     protected static ?string $model = PageContent::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
+                Forms\Components\TextInput::make('page_name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
+                Forms\Components\TextInput::make('section_name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('content_type')
+                    ->required(),
                 Forms\Components\Textarea::make('content')
                     ->required()
+                    ->columnSpanFull(),
+                Forms\Components\Textarea::make('meta_data')
                     ->columnSpanFull(),
                 Forms\Components\Toggle::make('is_active')
                     ->required(),
@@ -38,21 +45,22 @@ class PageContentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('page_name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('section_name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('content_type'),
                 Tables\Columns\IconColumn::make('is_active')
-                    ->boolean()
-                    ->sortable(),
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
@@ -63,8 +71,7 @@ class PageContentResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])
-            ->paginated([10, 25, 50]);
+            ]);
     }
 
     public static function getRelations(): array
@@ -81,12 +88,5 @@ class PageContentResource extends Resource
             'create' => Pages\CreatePageContent::route('/create'),
             'edit' => Pages\EditPageContent::route('/{record}/edit'),
         ];
-    }
-
-    // Query optimization
-    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
-    {
-        return parent::getEloquentQuery()
-            ->select('id', 'title', 'slug', 'is_active', 'created_at', 'updated_at');
     }
 }
