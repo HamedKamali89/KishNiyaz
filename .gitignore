@@ -6,19 +6,25 @@ kishniyaz-backend/public/storage
 kishniyaz-backend/storage/*.key
 kishniyaz-backend/.env
 kishniyaz-backend/.env.backup
+kishniyaz-backend/.env.production
 kishniyaz-backend/.phpunit.result.cache
-kishniyaz-backend/docker-compose.override.yml
+kishniyaz-backend/auth.json
 kishniyaz-backend/Homestead.json
 kishniyaz-backend/Homestead.yaml
 kishniyaz-backend/npm-debug.log
 kishniyaz-backend/yarn-error.log
+kishniyaz-backend/composer.lock
+kishniyaz-backend/package-lock.json
 
 # Frontend React
-kishniyaz-frontend/node_modules
-kishniyaz-frontend/dist
-kishniyaz-frontend/dist-ssr
+kishniyaz-frontend/node_modules/
+kishniyaz-frontend/dist/
+kishniyaz-frontend/dist-ssr/
 kishniyaz-frontend/*.local
 kishniyaz-frontend/.env
+kishniyaz-frontend/.env.local
+kishniyaz-frontend/.env.production
+kishniyaz-frontend/package-lock.json
 
 # IDE
 .vscode/
@@ -26,11 +32,16 @@ kishniyaz-frontend/.env
 *.swp
 *.swo
 *~
+.phpactor.json
 
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Logs
 *.log
 logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
