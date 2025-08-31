@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  app:
+    image: php:8.2-fpm
+    container_name: kishniyaz_app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - kishniyaz_net
+
+  webserver:
+    image: nginx:alpine
+    container_name: kishniyaz_webserver
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - kishniyaz_net
+
+  db:
+    image: mysql:8.0
+    container_name: kishniyaz_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: kishniyaz_db
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - kishniyaz_dbdata:/var/lib/mysql
+    networks:
+      - kishniyaz_net
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: kishniyaz_phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+    networks:
+      - kishniyaz_net
+
+networks:
+  kishniyaz_net:
+
+volumes:
+  kishniyaz_dbdata:
